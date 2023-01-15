@@ -15,8 +15,17 @@ const App = () => {
 
   return (
     <div>
-      {anecdotes[selected]}
+      <p>{anecdotes[selected]}</p>
+      <Button onClick = {() => anecdotes[setSelected(Math.floor(Math.random() * anecdotes.length))]} text = "Generate Random Anecdote" />
     </div>
+  )
+}
+
+const Button = ({ onClick, text }) => {
+  return (
+    <button onClick = {onClick}>
+      {text}
+    </button>
   )
 }
 
