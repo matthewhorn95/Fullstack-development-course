@@ -32,6 +32,16 @@ const App = () => {
     return (rand)
   }
 
+  const getMaxIndex = (arr) => {
+      let max = 0
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i] > max) {
+          max = arr[i]
+        }
+      }
+      return (arr.indexOf(max))
+  }
+
   return (
     <div>
       <div class="container">
@@ -45,7 +55,8 @@ const App = () => {
       </div>
       <div>
         <h1>Anecdote with most votes</h1>
-
+        <p class="anecdote">{anecdotes[getMaxIndex(countArr)]}</p>
+        <p>has {countArr[getMaxIndex(countArr)]} votes</p>
       </div>
     </div>
   )
