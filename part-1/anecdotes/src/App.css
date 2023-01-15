@@ -37,6 +37,10 @@
   }
 }
 
-.text {
+.container {
+  display: block;
+}
+
+.anecdote {
   height: 50px;
 }

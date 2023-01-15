@@ -33,16 +33,21 @@ const App = () => {
   }
 
   return (
-    <>
-      <div>
-        <p class="text">{anecdotes[selected]}</p>
+    <div>
+      <div class="container">
+        <h1>Anecdote of the day</h1>
+        <p class="anecdote">{anecdotes[selected]}</p>
         <p>has {countArr[selected]} votes</p>
       </div>
-      <div>
+      <div class="button">
         <Button onClick = {() => updateCount()} text = "Vote" />
         <Button onClick = {() => setSelected(getRand())} text = "Generate random anecdote" />
       </div>
-    </>
+      <div>
+        <h1>Anecdote with most votes</h1>
+
+      </div>
+    </div>
   )
 }
 
