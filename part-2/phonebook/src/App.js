@@ -10,13 +10,29 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault()
     const temp = [{ name: newName}]
-    setPersons(persons.concat(temp))
+    if (!containsName(temp.name)) {
+      setPersons(persons.concat(temp))
+    } else {
+      alert(`${newName} is already in the phonebook`)
+    }
     setNewName('')
   }
 
   const handleNoteChange = (event) => {
     console.log("handled", event.target.value)
     setNewName(event.target.value)
+  }
+
+  const containsName = () => {
+    let contains = false
+
+    for (let i = 0; i < persons.length; i++) {
+      if (persons[i]["name"] === newName) {
+        contains = true
+      }
+    }
+
+    return (contains)
   }
 
   return (
