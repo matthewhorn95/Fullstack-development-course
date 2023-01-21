@@ -5,8 +5,15 @@ const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-1234567' }
   ]) 
+
+ // state handling
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [newFilter, setNewFilter] = useState('')
+
+  const filteredPersons = newFilter.length >= 1
+    ? persons.filter(person => person.name.includes(newFilter) || person.number.includes(newFilter))
+    : persons
 
   const addName = (event) => {
     event.preventDefault()
@@ -18,6 +25,11 @@ const App = () => {
     }
     setNewName('')
     setNewNumber('')
+  }
+
+  const handleFilterChange = (event) => {
+    console.log("handled filter: ", event.target.value)
+    setNewFilter(event.target.value)
   }
 
   const handleNoteChange = (event) => {
@@ -44,12 +56,16 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+        <div>
+          Filter entries that include: <input value={newFilter} onChange={handleFilterChange} />
+        </div>
+      <h2>New Entry:</h2>
       <form onSubmit={addName}>
         <div>
-          name: <input value={newName} onChange={handleNoteChange} />
+          Name: <input value={newName} onChange={handleNoteChange} />
         </div>
         <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
+          Number: <input value={newNumber} onChange={handleNumberChange} />
         </div>
         <div>
           <button type="submit">add</button>
@@ -58,10 +74,9 @@ const App = () => {
       <h2>Numbers</h2>
       <div>
         <ul>
-          {persons.map(person => <Person key={person.name} person={person.name} number={person.number} />)}
+          {filteredPersons.map(person => <Person key={person.name} person={person.name} number={person.number} />)}
         </ul>
       </div>
-      <div>debug: {newName}</div>
     </div>
   )
 }
