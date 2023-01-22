@@ -1,17 +1,28 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Filter from './components/Filter.js'
 import PersonsList from './components/PersonsList.js'
 import Form from './components/Form.js'
+import axios from 'axios'
 
 const App = () => {
+
+   // state handling
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-1234567' }
-  ]) 
-
- // state handling
+  ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+
+// initializing persons state by fetching json from server
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+  }, []) 
 
   const filteredPersons = newFilter.length >= 1
     ? persons.filter(person => person.name.includes(newFilter) || person.number.includes(newFilter))
