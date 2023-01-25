@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter.js'
 import PersonsList from './components/PersonsList.js'
 import Form from './components/Form.js'
+import personService from './services/personService.js'
 import axios from 'axios'
 
 const App = () => {
@@ -16,11 +17,11 @@ const App = () => {
 
 // initializing persons state by fetching json from server
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
+    personService
+      .getAll()
+      .then(initialPersons => {
         console.log('promise fulfilled')
-        setPersons(response.data)
+        setPersons(initialPersons)
       })
   }, []) 
 
@@ -32,13 +33,11 @@ const App = () => {
     event.preventDefault()
     const temp = { name: newName, number: newNumber}
     if (!containsName(temp.name)) {
-      axios
-        .post('http://localhost:3001/persons', temp)
-        .then(response => {
-          setPersons(persons.concat(response.data))
+      personService
+        .createPerson(temp)
+        .then(personData => {
+          setPersons(persons.concat(personData))
         })
-        setNewName('')
-        setNewNumber('')
     } else {
       alert(`${newName} is already in the phonebook`)
     }
