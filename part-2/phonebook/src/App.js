@@ -46,16 +46,13 @@ const App = () => {
   }
 
   const handleFilterChange = (event) => {
-    console.log("handled filter: ", event.target.value)
     setNewFilter(event.target.value)
   }
 
   const handleNoteChange = (event) => {
-    console.log("handled name: ", event.target.value)
     setNewName(event.target.value)
   }
   const handleNumberChange = (event) => {
-    console.log("handled number: ", event.target.value)
     setNewNumber(event.target.value)
   }
 
