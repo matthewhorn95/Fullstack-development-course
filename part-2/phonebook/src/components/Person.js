@@ -1,7 +1,7 @@
 const Person = ({person, number}) => {
     return (
         <div>
-            {person} {number}
+            {person} {number} <button>delete</button>
         </div>
     )
 }

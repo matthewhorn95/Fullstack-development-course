@@ -79,7 +79,7 @@ const App = () => {
         <Form addName={addName} newName={newName} handleNoteChange={handleNoteChange} 
         newNumber={newNumber} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-        <PersonsList filtered={filteredPersons}/>
+        <PersonsList filtered={filteredPersons} />
     </div>
   )
 }
