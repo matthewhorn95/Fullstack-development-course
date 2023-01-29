@@ -39,7 +39,15 @@ const App = () => {
           setPersons(persons.concat(personData))
         })
     } else {
-      alert(`${newName} is already in the phonebook`)
+        personService
+          .updateNumber(temp)
+          .then(personData => {
+            const all = personService.getAll()
+            return all
+          })
+          .then(all => {
+            setPersons(all)
+          })
     }
     setNewName('')
     setNewNumber('')
