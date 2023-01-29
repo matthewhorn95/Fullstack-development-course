@@ -3,7 +3,7 @@ import personService from '../services/personService.js'
 
 const baseUrl = 'http://localhost:3001/persons'
 
-const remove = (person) => {
+/*const remove = (person) => {
     if(window.confirm(`Delete ${person}?`)) {
         console.log(person)
         personService
@@ -14,9 +14,10 @@ const remove = (person) => {
     else {
         console.log('delete failure')
     }
-}
+}*/
+
 // Need to find a way to rerender after calling personService
-const Person = ({person, number}) => {
+const Person = ({person, number, remove}) => {
     return (
         <div>
             {person} {number} <button  onClick={() => remove(person)}>delete</button>

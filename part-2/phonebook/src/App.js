@@ -45,6 +45,18 @@ const App = () => {
     setNewNumber('')
   }
 
+  const removePerson = (person) => {
+    personService
+      .remove(person)
+      .then(personData => {
+        const all = personService.getAll()
+        return all
+      })
+      .then(all => {
+        setPersons(all)
+      })
+  }
+
   const handleFilterChange = (event) => {
     setNewFilter(event.target.value)
   }
@@ -76,7 +88,7 @@ const App = () => {
         <Form addName={addName} newName={newName} handleNoteChange={handleNoteChange} 
         newNumber={newNumber} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-        <PersonsList filtered={filteredPersons} />
+        <PersonsList filtered={filteredPersons} remove={removePerson} />
     </div>
   )
 }
