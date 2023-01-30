@@ -12,19 +12,10 @@ const createPerson = (newPerson) => {
 }
 
 const remove = (person) => {
-    if(window.confirm(`Delete ${person}?`)) {
-        console.log(person)
-        getAll()
-            .then(data => axios.delete(`${baseUrl}/${data.find(p => p.name === person).id}`))
-        console.log('delete success')
-        const all = getAll()
-        console.log(`all: ${all}`)
-        return all
-    }
-    else {
-        console.log('delete cancelled')
-        return getAll()
-    }
+    getAll()
+        .then(data => axios.delete(`${baseUrl}/${data.find(p => p.name === person).id}`))
+    const all = getAll()
+    return all
 }
 
 const updateNumber = (person) => {

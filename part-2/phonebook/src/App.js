@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter.js'
 import PersonsList from './components/PersonsList.js'
 import Form from './components/Form.js'
+import Notification from './components/Notification.js'
 import personService from './services/personService.js'
 import axios from 'axios'
 
@@ -14,6 +15,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
 
 // initializing persons state by fetching json from server
   useEffect(() => {
@@ -37,12 +39,20 @@ const App = () => {
         .createPerson(temp)
         .then(personData => {
           setPersons(persons.concat(personData))
+          setSuccessMessage(`${temp.name} was successfully added to the phonebook`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
         })
     } else {
         personService
           .updateNumber(temp)
           .then(personData => {
             const all = personService.getAll()
+            setSuccessMessage(`${temp.name}'s number was successfully changed`)
+            setTimeout(() => {
+              setSuccessMessage(null)
+            }, 5000)
             return all
           })
           .then(all => {
@@ -54,15 +64,21 @@ const App = () => {
   }
 
   const removePerson = (person) => {
-    personService
-      .remove(person)
-      .then(personData => {
-        const all = personService.getAll()
-        return all
-      })
-      .then(all => {
-        setPersons(all)
-      })
+    if(window.confirm(`Delete ${person}?`)) {
+      personService
+        .remove(person)
+        .then(personData => {
+          const all = personService.getAll()
+          return all
+        })
+        .then(all => {
+          setPersons(all)
+          setSuccessMessage(`${person} was successfully removed from the phonebook`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
+        }) 
+    }
   }
 
   const handleFilterChange = (event) => {
@@ -91,6 +107,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+        <Notification message={successMessage} />
         <Filter filter={newFilter} handler={handleFilterChange} />
       <h2>New Entry:</h2>
         <Form addName={addName} newName={newName} handleNoteChange={handleNoteChange} 
