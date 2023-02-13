@@ -1,3 +1,3 @@
 # Fullstack-development-course
-University of Helsinki Fullstack Development Course Solutions.
+University of Helsinki Fullstack Development Course Solutions (Mine).
 A work in progress...
