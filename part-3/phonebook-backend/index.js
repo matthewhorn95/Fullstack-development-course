@@ -32,7 +32,7 @@ app.get('/api/persons', (request, response) => {
     response.json(persons)
   })
 
-app.get('/api/info', (request, response) => {
+app.get('/info', (request, response) => {
     currDate = new Date()
     console.log(currDate)
     response.send(`<p>Phonebook has info for ${persons.length} people </p> 
