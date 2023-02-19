@@ -5,3 +5,21 @@ Content-Type: application/json
     "name": "Matthew Horn",
     "number": "41-476-2326"
 }
+
+###
+
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "number": "911"
+}
+
+###
+
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Matthew Horn"
+}

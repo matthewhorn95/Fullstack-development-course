@@ -69,15 +69,29 @@ app.delete('/api/persons/:id', (request, response) => {
   
 })
 
-// Single person post request
+// Single person post request with error handling for
+// no name input, no number input, and duplicate name
 app.post('/api/persons', (request, response) => {
   const person = request.body
-  const rand_id = Math.floor(10000*Math.random())
-  person["id"] = rand_id
 
-  console.log(person)
-  persons = persons.concat(person)
-  response.json(person)
+  match = persons.find(x => x.name === person.name)
+
+  if (!person.name) {
+    console.log("name must be defined")
+    response.status(400).end()
+  } else if (!person.number) {
+    console.log("number must be defined")
+    response.status(400).end()
+  } else if (match != undefined) {
+    console.log("This person already exists in the phonebook")
+    response.status(400).end()
+  } else {
+    const rand_id = Math.floor(10000*Math.random())
+    person["id"] = rand_id
+
+    persons = persons.concat(person)
+    response.json(person)
+  }
 })
 
 const PORT = 3001
