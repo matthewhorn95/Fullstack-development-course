@@ -1,6 +1,8 @@
 const express = require("express")
 const app = express()
 
+app.use(express.json())
+
 let persons = [
     { 
       "id": 1,
@@ -24,14 +26,17 @@ let persons = [
     }
 ]
 
+// Homepage get request
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
   })
 
+// Persons list get request
 app.get('/api/persons', (request, response) => {
     response.json(persons)
   })
 
+// Info page get request
 app.get('/info', (request, response) => {
     currDate = new Date()
     console.log(currDate)
@@ -39,6 +44,7 @@ app.get('/info', (request, response) => {
                   <p> ${currDate} </p>`)
   })
 
+// Single person get request
 app.get('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
   const person = persons.find(person => person.id === id)
@@ -49,6 +55,7 @@ app.get('/api/persons/:id', (request, response) => {
   }
 })
 
+// Single person delete request
 app.delete('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
   const person = persons.find(person => person.id === id)
@@ -60,6 +67,17 @@ app.delete('/api/persons/:id', (request, response) => {
     response.status(404).end()
   }
   
+})
+
+// Single person post request
+app.post('/api/persons', (request, response) => {
+  const person = request.body
+  const rand_id = Math.floor(10000*Math.random())
+  person["id"] = rand_id
+
+  console.log(person)
+  persons = persons.concat(person)
+  response.json(person)
 })
 
 const PORT = 3001
