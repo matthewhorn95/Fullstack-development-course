@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express")
 const morgan = require("morgan")
 const app = express()
@@ -5,11 +6,18 @@ const cors = require('cors')
 
 app.use(cors())
 app.use(express.json())
+
+// overrides homepage get request below, replaced with frontend react app
 app.use(express.static('build'))
 
+// set custom console output with morgan
 morgan.token("body", function (req, res) { return JSON.stringify(req.body) })
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :body"))
 
+// imports person model
+const Person = require('./models/person.js')
+
+// hard-coded database/server
 let persons = [
     { 
       "id": 1,
@@ -40,26 +48,26 @@ app.get('/', (request, response) => {
 
 // Persons list get request
 app.get('/api/persons', (request, response) => {
-    response.json(persons)
+    Person.find({}).then(persons => {
+      response.json(persons)
+    })
   })
 
 // Info page get request
 app.get('/info', (request, response) => {
     currDate = new Date()
     console.log(currDate)
-    response.send(`<p>Phonebook has info for ${persons.length} people </p> 
+    Person.find({}).then(persons => {
+      response.send(`<p>Phonebook has info for ${persons.length} people </p> 
                   <p> ${currDate} </p>`)
+    })
   })
 
 // Single person get request
 app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  const person = persons.find(person => person.id === id)
-  if (person) {
+  Person.findById(request.params.id).then(person => {
     response.json(person)
-  } else {
-    response.status(404).end()
-  }
+  })
 })
 
 // Single person delete request
@@ -79,25 +87,34 @@ app.delete('/api/persons/:id', (request, response) => {
 // Single person post request with error handling for
 // no name input, no number input, and duplicate name
 app.post('/api/persons', (request, response) => {
-  const person = request.body
+  const body = request.body
 
-  match = persons.find(x => x.name === person.name)
+  match = persons.find(x => x.name === body.name)
 
-  if (!person.name) {
+  if (!body.name) {
     console.log("Name must be defined")
     response.status(400).send({error: "name must be defined"})
-  } else if (!person.number) {
+  } else if (!body.number) {
     console.log("Number must be defined")
     response.status(400).send({error: "number must be defined"})
   } else if (match != undefined) {
     console.log("This person already exists in the phonebook")
     response.status(400).send({error: "This person already exists in the phonebook"})
   } else {
-    const rand_id = Math.floor(10000*Math.random())
+    const person = new Person({
+      name: body.name,
+      number: body.number
+    })
+
+    person.save().then(saved => {
+      response.json(saved)
+    })
+
+    /*const rand_id = Math.floor(10000*Math.random())
     person["id"] = rand_id
 
     persons = persons.concat(person)
-    response.json(person)
+    response.json(person)*/
   }
 })
 
@@ -107,7 +124,7 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint)
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
