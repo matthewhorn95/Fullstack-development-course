@@ -16,13 +16,22 @@ mongoose.connect(url)
         console.log('error connecting to MongoDB:', error.message)
     })
 
+// Fix!
+const numberValidator = (val) => {
+  return (/^[0-9]{2,3}-([0-9]+)$/gm.test(val))
+}
+
 // phonebook person entry schema; id automaticallly generated
 const personSchema = new mongoose.Schema({
     name: {
       type: String,
       minLength: 3
     },
-    number: String
+    number: {
+      type: String,
+      minLength: 8,
+      validate: numberValidator
+    }
 })
 
 // reformats api/persons output; id needed?
