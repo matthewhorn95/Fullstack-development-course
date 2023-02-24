@@ -16,7 +16,7 @@ mongoose.connect(url)
     console.log('error connecting to MongoDB:', error.message)
   })
 
-// Fix!
+// customer number validator
 const numberValidator = (val) => {
   return (/^[0-9]{2,3}-([0-9]+)$/gm.test(val))
 }
@@ -34,7 +34,7 @@ const personSchema = new mongoose.Schema({
   }
 })
 
-// reformats api/persons output; id needed?
+// reformats api/persons output
 personSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
