@@ -4,7 +4,7 @@ import PersonsList from './components/PersonsList.js'
 import Form from './components/Form.js'
 import Notification from './components/Notification.js'
 import personService from './services/personService.js'
-import axios from 'axios'
+import Error from './components/Error.js'
 
 const App = () => {
 
@@ -16,6 +16,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
 // initializing persons state by fetching json from server
   useEffect(() => {
@@ -41,6 +42,14 @@ const App = () => {
           setSuccessMessage(`${temp.name} was successfully added to the phonebook`)
           setTimeout(() => {
             setSuccessMessage(null)
+          }, 5000)
+        })
+        .catch(error => {
+          console.log('error from frontend')
+          console.log(error.response.data.error)
+          setErrorMessage(`${error.response.data.error}`)
+          setTimeout(() => {
+            setErrorMessage(null)
           }, 5000)
         })
     } else {
@@ -107,6 +116,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
         <Notification message={successMessage} />
+        <Error message={errorMessage} />
         <Filter filter={newFilter} handler={handleFilterChange} />
       <h2>New Entry:</h2>
         <Form addName={addName} newName={newName} handleNoteChange={handleNoteChange} 

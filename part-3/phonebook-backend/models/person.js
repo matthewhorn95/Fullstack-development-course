@@ -16,9 +16,12 @@ mongoose.connect(url)
         console.log('error connecting to MongoDB:', error.message)
     })
 
-// phonebook person entry schema; id needed?
+// phonebook person entry schema; id automaticallly generated
 const personSchema = new mongoose.Schema({
-    name: String,
+    name: {
+      type: String,
+      minLength: 3
+    },
     number: String
 })
 
@@ -30,7 +33,5 @@ personSchema.set('toJSON', {
     delete returnedObject.__v
   }
 })
-
-// const Person = mongoose.model('Person', personSchema)
 
 module.exports = mongoose.model('Person', personSchema)
