@@ -1,8 +1,24 @@
-require('dotenv').config()
 const express = require("express")
-const morgan = require("morgan")
 const app = express()
 const cors = require('cors')
+const morgan = require('morgan')
+require('dotenv').config()
+
+// error handling middleware
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+
+  next(error)
+}
+
+// miscellaneous error handling
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
 
 app.use(cors())
 app.use(express.json())
@@ -10,7 +26,7 @@ app.use(express.json())
 // overrides homepage get request below, replaced with frontend react app
 app.use(express.static('build'))
 
-// set custom console output with morgan
+// set custom console output with morgan API
 morgan.token("body", function (req, res) { return JSON.stringify(req.body) })
 app.use(morgan(":method :url :status :res[content-length] - :response-time ms :body"))
 
@@ -41,11 +57,6 @@ let persons = [
     }
 ]
 
-// Homepage get request
-app.get('/', (request, response) => {
-    response.send('<h1>Hello World!</h1>')
-  })
-
 // Persons list get request
 app.get('/api/persons', (request, response) => {
     Person.find({}).then(persons => {
@@ -64,24 +75,24 @@ app.get('/info', (request, response) => {
   })
 
 // Single person get request
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id).then(person => {
-    response.json(person)
+    if (person) {
+      response.json(person)
+    } else {
+      response.status(404).end()
+    }
   })
+  .catch(error => next(error))
 })
 
 // Single person delete request
-app.delete('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  const person = persons.find(person => person.id === id)
-
-  if (person) {
-    persons = persons.filter(person => person.id !== id)
-    response.status(204).end()
-  } else {
-    response.status(404).end()
-  }
-  
+app.delete('/api/persons/:id', (request, response, next) => {
+  Person.findByIdAndRemove(request.params.id)
+    .then(result => {
+      response.status(204)
+    })
+    .catch(error => next(error))
 })
 
 // Single person post request with error handling for
@@ -109,20 +120,28 @@ app.post('/api/persons', (request, response) => {
     person.save().then(saved => {
       response.json(saved)
     })
-
-    /*const rand_id = Math.floor(10000*Math.random())
-    person["id"] = rand_id
-
-    persons = persons.concat(person)
-    response.json(person)*/
   }
 })
 
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
-}
+// put request to update number field of existing person
+app.put('/api/persons/:id', (request, response) => {
+  const body = request.body
 
+  const person = {
+    name: body.name,
+    number: body.number
+  }
+
+  Person.findByIdAndUpdate(request.params.id, person, {new: true})
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
+    .catch(error => next(error))
+})
+
+// taking error handlers into use
 app.use(unknownEndpoint)
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
