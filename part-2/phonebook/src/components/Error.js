@@ -10,10 +10,10 @@ const Error = ({ message }) => {
     }
 
     return (
-        <div style={errorStyle}>
-          {message}
-        </div>
-      )
+      <div style={errorStyle}>
+        {message}
+      </div>
+    )
 }
 
 export default Error

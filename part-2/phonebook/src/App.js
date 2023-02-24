@@ -25,7 +25,7 @@ const App = () => {
       .then(initialPersons => {
         setPersons(initialPersons)
       })
-  }, []) 
+  }, [])
 
   const filteredPersons = newFilter.length >= 1
     ? persons.filter(person => person.name.includes(newFilter) || person.number.includes(newFilter))
@@ -85,7 +85,7 @@ const App = () => {
           setTimeout(() => {
             setSuccessMessage(null)
           }, 5000)
-        }) 
+        })
     }
   }
 
@@ -119,7 +119,7 @@ const App = () => {
         <Error message={errorMessage} />
         <Filter filter={newFilter} handler={handleFilterChange} />
       <h2>New Entry:</h2>
-        <Form addName={addName} newName={newName} handleNoteChange={handleNoteChange} 
+        <Form addName={addName} newName={newName} handleNoteChange={handleNoteChange}
         newNumber={newNumber} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
         <PersonsList filtered={filteredPersons} remove={removePerson} />
