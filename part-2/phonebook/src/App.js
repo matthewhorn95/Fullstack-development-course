@@ -27,6 +27,7 @@ const App = () => {
       })
   }, [])
 
+// defines functionality of filter field
   const filteredPersons = newFilter.length >= 1
     ? persons.filter(person => person.name.includes(newFilter) || person.number.includes(newFilter))
     : persons
@@ -113,7 +114,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <>
       <h2>Phonebook</h2>
         <Notification message={successMessage} />
         <Error message={errorMessage} />
@@ -123,7 +124,7 @@ const App = () => {
         newNumber={newNumber} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
         <PersonsList filtered={filteredPersons} remove={removePerson} />
-    </div>
+    </>
   )
 }
 
