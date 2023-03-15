@@ -28,15 +28,27 @@ describe('total likes', () => {
     })
 })
 
-describe('best author', () => {
+describe('best author by blog count', () => {
     test('single blog gives single author', () => {
-        return expect(listHelper.topAuthorLikes(singleBlogList).author).toBe("Robert C. Martin") &&
-        expect(listHelper.topAuthorLikes(singleBlogList).author).toBe(1)
+        return expect(listHelper.mostBlogs(singleBlogList).author).toBe("Robert C. Martin") &&
+        expect(listHelper.mostBlogs(singleBlogList).author).toBe(1)
     })
 
     test('multiple blog gives best author', () => {
-        return expect(listHelper.topAuthorLikes(testList).author).toBe("Robert C. Martin") &&
-        expect(listHelper.topAuthorLikes(testList).author).toBe(3)
+        return expect(listHelper.mostBlogs(testList).author).toBe("Robert C. Martin") &&
+        expect(listHelper.mostBlogs(testList).author).toBe(3)
+    })
+})
+
+describe('best author by total likes', () => {
+    test('single blog gives single author', () => {
+        return expect(listHelper.mostLikes(singleBlogList).author).toBe("Robert C. Martin") &&
+        expect(listHelper.mostLikes(singleBlogList).author).toBe(2)
+    })
+
+    test('multiple blog gives best author', () => {
+        return expect(listHelper.mostLikes(testList).author).toBe("Edsger W. Dijkstra") &&
+        expect(listHelper.mostLikes(testList).author).toBe(17)
     })
 })
 
