@@ -28,6 +28,18 @@ describe('total likes', () => {
     })
 })
 
+describe('best author', () => {
+    test('single blog gives single author', () => {
+        return expect(listHelper.topAuthorLikes(singleBlogList).author).toBe("Robert C. Martin") &&
+        expect(listHelper.topAuthorLikes(singleBlogList).author).toBe(1)
+    })
+
+    test('multiple blog gives best author', () => {
+        return expect(listHelper.topAuthorLikes(testList).author).toBe("Robert C. Martin") &&
+        expect(listHelper.topAuthorLikes(testList).author).toBe(3)
+    })
+})
+
 const emptyBlog = []
 
 const singleBlogList = [

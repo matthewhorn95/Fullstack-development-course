@@ -1,4 +1,6 @@
 /* eslint-disable no-unused-vars */
+const  _ = require('lodash')
+
 const dummy = (blogs) => {
     return 1
 }
@@ -16,8 +18,20 @@ const maxLikes = (blogs) => {
     return Math.max(blogs.map(b => b.likes).reduce(findMaxReduce, 0))
 }
 
+const topAuthorLikes = (blogs) => {
+    const counts = _.groupBy(blogs, 'author')
+    console.log(counts)
+    const bestAuthor = _.maxBy(_.keys(counts), (author) => counts[author].length)
+
+    return {
+        author: bestAuthor,
+        blogs: counts[bestAuthor].length
+    }
+}
+
 module.exports = {
     dummy,
     totalLikes,
-    maxLikes
+    maxLikes,
+    topAuthorLikes
 }
