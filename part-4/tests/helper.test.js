@@ -1,4 +1,20 @@
 const listHelper = require('../utils/list_helper.js')
+const mongoose = require('mongoose')
+const app = require('../app.js')
+const supertest = require('supertest')
+
+const api = supertest(app)
+
+test('get returns blogs', async () => {
+    await api
+        .get('/api/blogs')
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+})
+
+afterAll(async () => {
+    await mongoose.connection.close()
+})
 
 describe('dummy', () => {
     test('dummy returns one', () => {
