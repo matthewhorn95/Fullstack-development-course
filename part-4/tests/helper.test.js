@@ -2,20 +2,53 @@ const listHelper = require('../utils/list_helper.js')
 const mongoose = require('mongoose')
 const app = require('../app.js')
 const supertest = require('supertest')
+const Blog = require('../models/blog.js')
 
 const api = supertest(app)
 
-test('get returns blogs', async () => {
-    await api
-        .get('/api/blogs')
-        .expect(200)
-        .expect('Content-Type', /application\/json/)
-})
+describe('database', () => {
+    test('get returns blogs', async () => {
+        await api
+            .get('/api/blogs')
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+    })
 
-test('id is defined', async () => {
-    const response = await api
-        .get('/api/blogs')
-    response.body.map(blog => expect(blog.id).toBeDefined())
+    test('id is defined', async () => {
+        const response = await api
+            .get('/api/blogs')
+        response.body.map(blog => expect(blog.id).toBeDefined())
+    })
+
+    test('post new blog to database', async () => {
+        const initResponse = await api
+            .get('/api/blogs')
+        const initialLength = initResponse.body.length
+
+        let noteToInsert = {
+            title: "Type wars",
+            author: "Robert C. Martin",
+            url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
+            likes: 2
+        }
+        let newBlog = new Blog(noteToInsert)
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog.toJSON())
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+
+        const getResponse = await api
+            .get('/api/blogs')
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+
+        const titles = getResponse.body.map(blog => blog.title)
+        expect(getResponse.body).toHaveLength(initialLength + 1)
+        expect(titles).toContain('Type wars')
+
+    })
 })
 
 afterAll(async () => {
