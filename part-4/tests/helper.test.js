@@ -49,6 +49,24 @@ describe('database', () => {
         expect(titles).toContain('Type wars')
 
     })
+
+    test('missing likes defaults to zero', async () => {
+        let noteToInsert = {
+            title: "Type wars",
+            author: "Robert C. Martin",
+            url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html"
+        }
+        let newBlog = new Blog(noteToInsert)
+
+        const postResponse = await api
+            .post('/api/blogs')
+            .send(newBlog.toJSON())
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+        console.log(postResponse.body)
+        expect(postResponse.body.likes).toEqual(0)
+
+    })
 })
 
 afterAll(async () => {
