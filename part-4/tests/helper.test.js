@@ -12,6 +12,12 @@ test('get returns blogs', async () => {
         .expect('Content-Type', /application\/json/)
 })
 
+test('id is defined', async () => {
+    const response = await api
+        .get('/api/blogs')
+    response.body.map(blog => expect(blog.id).toBeDefined())
+})
+
 afterAll(async () => {
     await mongoose.connection.close()
 })
