@@ -7,3 +7,14 @@ Content-Type: application/json
     "url": "test url",
     "likes": "993"
 }
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Type wars",
+    "author": "Robert C. Martin",
+    "likes": "2"
+}

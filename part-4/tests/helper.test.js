@@ -67,6 +67,30 @@ describe('database', () => {
         expect(postResponse.body.likes).toEqual(0)
 
     })
+
+    test('missing title or url gives 400 status', async () => {
+        let missingUrlBlog = {
+            title: "Type wars",
+            author: "Robert C. Martin",
+            likes: 2
+        }
+        let missingTitleBlog = {
+            author: "Robert C. Martin",
+            url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
+            likes: 2
+        }
+        let missingUrlBlogpost = new Blog(missingUrlBlog)
+        let missingTitleBlogpost = new Blog(missingTitleBlog)
+
+        await api
+            .post('/api/blogs')
+            .send(missingUrlBlogpost.toJSON())
+            .expect(400)
+        await api
+            .post('/api/blogs')
+            .send(missingTitleBlogpost.toJSON())
+            .expect(400)
+    })
 })
 
 afterAll(async () => {
