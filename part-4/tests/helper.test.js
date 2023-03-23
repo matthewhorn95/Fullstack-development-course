@@ -111,7 +111,7 @@ describe('database', () => {
             .expect(404)
         await api
             .get('/api/blogs/5a422a851b54a676234d17f7')
-            .expect(200)
+            .expect(404)
 
         const blogAfterRemoval = await api
             .get('/api/blogs')
