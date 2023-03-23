@@ -6,6 +6,11 @@ const Blog = require('../models/blog.js')
 
 const api = supertest(app)
 
+beforeEach(async () => {
+    await Blog.deleteMany({})
+    await Blog.insertMany(testList)
+})
+
 describe('database', () => {
     test('get returns blogs', async () => {
         await api
