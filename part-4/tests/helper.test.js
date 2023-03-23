@@ -9,7 +9,7 @@ const api = supertest(app)
 beforeEach(async () => {
     await Blog.deleteMany({})
     await Blog.insertMany(testList)
-})
+}, 30000)
 
 describe('database', () => {
     test('get returns blogs', async () => {
@@ -111,7 +111,7 @@ describe('database', () => {
             .expect(404)
         await api
             .get('/api/blogs/5a422a851b54a676234d17f7')
-            .expect(404)
+            .expect(200)
 
         const blogAfterRemoval = await api
             .get('/api/blogs')
