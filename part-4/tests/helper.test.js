@@ -96,6 +96,25 @@ describe('database', () => {
             .send(missingTitleBlogpost.toJSON())
             .expect(400)
     })
+
+    test('get single blog by id', async () => {
+        const res = await api
+            .get('/api/blogs/5a422a851b54a676234d17f7')
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+        console.log(res.body)
+    })
+
+    test('delete a single blog', async () => {
+        await api
+            .delete('/api/blogs/5a422a851b54a676234d17f7')
+            .expect(404)
+
+        const blogAfterRemoval = await api
+            .get('/api/blogs')
+
+        expect(blogAfterRemoval.body).toHaveLength(testList.length - 1)
+    })
 })
 
 afterAll(async () => {
