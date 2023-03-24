@@ -9,7 +9,7 @@ const api = supertest(app)
 beforeEach(async () => {
     await Blog.deleteMany({})
     await Blog.insertMany(testList)
-}, 30000)
+}, 40000)
 
 describe('database', () => {
     test('get returns blogs', async () => {
@@ -68,7 +68,6 @@ describe('database', () => {
             .send(newBlog.toJSON())
             .expect(201)
             .expect('Content-Type', /application\/json/)
-        console.log(postResponse.body)
         expect(postResponse.body.likes).toEqual(0)
 
     })
@@ -98,11 +97,31 @@ describe('database', () => {
     })
 
     test('get single blog by id', async () => {
-        const res = await api
+        await api
             .get('/api/blogs/5a422a851b54a676234d17f7')
             .expect(200)
             .expect('Content-Type', /application\/json/)
-        console.log(res.body)
+    })
+
+    test('update single blog likes by id', async () => {
+
+        const originalBlog = await api
+            .get('/api/blogs/5a422aa71b54a676234d17f8')
+        expect(originalBlog.body.likes).toEqual(5)
+
+        const newBlog = {
+            title: "Go To Statement Considered Harmful",
+            author: "Edsger W. Dijkstra",
+            url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+            likes: 7,
+            id: "5a422aa71b54a676234d17f8"
+        }
+        await api
+            .put('/api/blogs/5a422aa71b54a676234d17f8')
+            .send(newBlog)
+        const updatedBlog = await api
+            .get('/api/blogs/5a422aa71b54a676234d17f8')
+        expect(updatedBlog.body.likes).toEqual(7)
     })
 
     test('delete a single blog', async () => {
@@ -118,6 +137,7 @@ describe('database', () => {
 
         expect(blogAfterRemoval.body).toHaveLength(testList.length - 1)
     })
+
 })
 
 afterAll(async () => {
