@@ -18,3 +18,14 @@ Content-Type: application/json
     "author": "Robert C. Martin",
     "likes": "2"
 }
+
+###
+
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "coconut89",
+    "password": "adsfpoihadpfnakjehk",
+    "name": "Chet Baker"
+}

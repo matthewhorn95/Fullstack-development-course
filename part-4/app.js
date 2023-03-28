@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 const config = require('./utils/config.js')
 const logger = require('./utils/logger.js')
 const blogsRouter = require('./controllers/blogs.js')
+const usersRouter = require('./controllers/users.js')
 const middleware = require('./utils/middleware.js')
 require('dotenv').config()
 
@@ -27,6 +28,7 @@ app.use(middleware.requestLogger)
 
 // take imported blogsRouter route into use
 app.use('/', blogsRouter)
+app.use('/api/users', usersRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
