@@ -16,16 +16,54 @@ Content-Type: application/json
 {
     "title": "Type wars",
     "author": "Robert C. Martin",
-    "likes": "2"
+    "likes": "2",
+    "userId": "641b47b9ff2c6e24771429c3"
 }
 
 ###
 
-POST http://localhost:3003/api/users
+POST http://localhost:3003/api/users/
 Content-Type: application/json
 
 {
     "username": "coconut89",
     "password": "adsfpoihadpfnakjehk",
     "name": "Chet Baker"
+}
+
+###
+
+POST http://localhost:3003/api/users/
+Content-Type: application/json
+
+{
+    "username": "cowabunga23",
+    "password": "adsfdsafddddf",
+    "name": "Matthew Horn"
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Jazz Blues",
+    "author": "Chet Baker",
+    "url": "test url",
+    "likes": "212",
+    "userId": "642318ff26f64810849c28bd"
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Fullstack Development",
+    "author": "Matthew Horn",
+    "url": "notaurl",
+    "likes": "123",
+    "userId": ObjectId("6422d4385c397d792e280ddf")
 }
