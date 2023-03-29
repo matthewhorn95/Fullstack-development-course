@@ -65,5 +65,5 @@ Content-Type: application/json
     "author": "Matthew Horn",
     "url": "notaurl",
     "likes": "123",
-    "userId": ObjectId("6422d4385c397d792e280ddf")
+    "userId": "6423099c8b5d2bf570c5f126"
 }

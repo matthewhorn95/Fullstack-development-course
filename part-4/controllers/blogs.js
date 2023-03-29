@@ -6,11 +6,13 @@ const User = require('../models/user.js')
 
 blogsRouter.get('/api/blogs', async (request, response) => {
     const blogs = await Blog.find({})
+      .populate('user', { username: 1, name: 1, id: 1 })
     response.json(blogs)
   })
 
 blogsRouter.get('/api/blogs/:id', async (request, response) => {
   const blogById = await Blog.findById(request.params.id)
+    .populate('user', { username: 1, name: 1, id: 1 })
   blogById ? response.json(blogById) : response.status(404).end()
 })
 
