@@ -4,21 +4,22 @@ const Blog = require('../models/blog.js')
 const User = require('../models/user.js')
 // const { info, error } = require('../utils/logger.js')
 
-blogsRouter.get('/api/blogs', async (request, response) => {
+blogsRouter.get('/', async (request, response) => {
     const blogs = await Blog.find({})
       .populate('user', { username: 1, name: 1, id: 1 })
     response.json(blogs)
   })
 
-blogsRouter.get('/api/blogs/:id', async (request, response) => {
+blogsRouter.get('/:id', async (request, response) => {
   const blogById = await Blog.findById(request.params.id)
     .populate('user', { username: 1, name: 1, id: 1 })
   blogById ? response.json(blogById) : response.status(404).end()
 })
 
-blogsRouter.post('/api/blogs', async (request, response) => {
+blogsRouter.post('/', async (request, response) => {
     const body = request.body
     const user = await User.findById(body.userId)
+    console.log(user)
 
     const blog = new Blog({
       title: body.title,
@@ -32,7 +33,7 @@ blogsRouter.post('/api/blogs', async (request, response) => {
       response.status(400).end()
     } else {
       const result = await blog.save()
-      user.blogs = user.blogs.concat(user._id)
+      user.blogs = user.blogs.concat(result._id)
       await user.save()
       response.status(201).json(result)
     }

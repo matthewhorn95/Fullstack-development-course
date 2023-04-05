@@ -27,7 +27,7 @@ app.use(express.json())
 app.use(middleware.requestLogger)
 
 // take imported blogsRouter route into use
-app.use('/', blogsRouter)
+app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
 
 app.use(middleware.unknownEndpoint)

@@ -3,14 +3,14 @@ const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
     username: String,
-    password: String,
+    passwordHash: String,
     name: String,
     blogs: [
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Blog'
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Blog'
         }
-    ],
+    ]
   })
 // userSchema.plugin(uniqueValidator)
 
@@ -19,7 +19,7 @@ userSchema.set('toJSON', {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v
-    delete returnedObject.password
+    delete returnedObject.passwordHash
   }
 })
 
