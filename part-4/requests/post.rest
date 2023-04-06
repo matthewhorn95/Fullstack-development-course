@@ -77,3 +77,16 @@ Content-Type: application/json
     "likes": "123",
     "userId": "642d7893752941f2f6aea377"
 }
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvd2FidW5nYTIzIiwiaWQiOiI2NDJkNzg5Mzc1Mjk0MWYyZjZhZWEzNzciLCJpYXQiOjE2ODA3NzE2NzF9.xZQmY6e9rnRZL-dAVCvI3mCigt0MiymJKx03qFFrB-E
+
+{
+    "title": "Fullstack Development 2",
+    "author": "Matthew Horn",
+    "url": "notaurl2",
+    "likes": "1232",
+    "userId": "642d7893752941f2f6aea377"
+}
