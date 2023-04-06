@@ -27,6 +27,7 @@ app.use(express.json())
 
 // Take middleware into use
 app.use(middleware.requestLogger)
+app.use(middleware.tokenExtractor)
 
 // Take routes into use
 app.use('/api/login', loginRouter)

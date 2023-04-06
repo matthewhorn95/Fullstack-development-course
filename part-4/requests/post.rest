@@ -90,3 +90,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvd
     "likes": "1232",
     "userId": "642d7893752941f2f6aea377"
 }
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Fullstack Development 3",
+    "author": "Matthew Horn",
+    "url": "notaurl23",
+    "likes": "12323",
+    "userId": "642d7893752941f2f6aea377"
+}
