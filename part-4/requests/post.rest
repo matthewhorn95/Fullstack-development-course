@@ -44,6 +44,16 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:3003/api/login/
+Content-Type: application/json
+
+{
+    "username": "cowabunga23",
+    "password": "adsfdsafddddf"
+}
+
+###
+
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
@@ -52,7 +62,7 @@ Content-Type: application/json
     "author": "Chet Baker",
     "url": "test url",
     "likes": "212",
-    "userId": "642318ff26f64810849c28bd"
+    "userId": "642d7a8db912bce353d77279"
 }
 
 ###
@@ -65,5 +75,5 @@ Content-Type: application/json
     "author": "Matthew Horn",
     "url": "notaurl",
     "likes": "123",
-    "userId": "6423099c8b5d2bf570c5f126"
+    "userId": "642d7893752941f2f6aea377"
 }
