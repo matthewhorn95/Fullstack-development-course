@@ -5,13 +5,6 @@ const User = require('../models/user.js')
 const jwt = require('jsonwebtoken')
 // const { info, error } = require('../utils/logger.js')
 
-const getTokenFrom = request => {
-  const auth = request.get('authorization')
-  if (auth && auth.startsWith('Bearer ')) {
-    return auth.replace('Bearer ', '')
-  }
-}
-
 blogsRouter.get('/', async (request, response) => {
     const blogs = await Blog.find({})
       .populate('user', { username: 1, name: 1, id: 1 })
