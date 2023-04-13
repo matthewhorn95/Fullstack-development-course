@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Login from './components/Login'
+import Post from './components/Post'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -9,6 +10,9 @@ const App = () => {
   const [username, setUsername] = useState([])
   const [password, setPassword] = useState([])
   const [user, setUser] = useState(null)
+  const [title, setTitle] = useState([])
+  const [author, setAuthor] = useState([])
+  const [url, setUrl] = useState([])
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -32,6 +36,18 @@ const App = () => {
     setPassword(event.target.value)
   }
 
+  const handleTitle = (event) => {
+    setTitle(event.target.value)
+  }
+
+  const handleAuthor = (event) => {
+    setAuthor(event.target.value)
+  }
+
+  const handleUrl = (event) => {
+    setUrl(event.target.value)
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     console.log('logging in', username)
@@ -40,12 +56,25 @@ const App = () => {
       console.log(user)
       window.localStorage.setItem('activeUser', JSON.stringify(user))
 
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
     } catch (exception) {
       console.log('Wrong username or password')
     }
+  }
+
+  const handlePost = (event) => {
+    event.preventDefault()
+    console.log('post by', username, 'initiated')
+
+    blogService.create({ title, author, url })
+      .then(response => setBlogs(blogs.concat(response)))
+
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   const handleLogout = (event) => {
@@ -68,6 +97,13 @@ const App = () => {
         )
         : (
         <>
+          <Post title={title}
+          author={author}
+          url={url}
+          handleTitle={handleTitle}
+          handleUrl={handleUrl}
+          handleAuthor={handleAuthor}
+          handlePost={handlePost} />
           {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
           <button onClick={handleLogout}>log out</button>
         </>
