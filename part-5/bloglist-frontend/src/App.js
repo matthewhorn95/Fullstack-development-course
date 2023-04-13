@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Login from './components/Login'
 import Post from './components/Post'
+import Notification from './components/Notification.js'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -13,6 +14,7 @@ const App = () => {
   const [title, setTitle] = useState([])
   const [author, setAuthor] = useState([])
   const [url, setUrl] = useState([])
+  const [notification, setNotification] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -53,7 +55,10 @@ const App = () => {
     console.log('logging in', username)
     try {
       const user = await loginService.login({ username, password })
-      console.log(user)
+      setNotification(`logged in successfully as ${username}`)
+      setTimeout(() => {
+        setNotification('')
+      }, 3000)
       window.localStorage.setItem('activeUser', JSON.stringify(user))
 
       blogService.setToken(user.token)
@@ -62,6 +67,12 @@ const App = () => {
       setPassword('')
     } catch (exception) {
       console.log('Wrong username or password')
+      setNotification('Wrong username or password')
+      setUsername('')
+      setPassword('')
+      setTimeout(() => {
+        setNotification('')
+      }, 3000)
     }
   }
 
@@ -71,6 +82,11 @@ const App = () => {
 
     blogService.create({ title, author, url })
       .then(response => setBlogs(blogs.concat(response)))
+
+    setNotification(`New blog titled ${title} by ${author} added`)
+    setTimeout(() => {
+      setNotification('')
+    }, 3000)
 
     setTitle('')
     setAuthor('')
@@ -82,12 +98,17 @@ const App = () => {
       console.log('logging out', user.username)
       window.localStorage.removeItem('activeUser')
       setUser(null)
+      setNotification('Logged out successfully')
+      setTimeout(() => {
+        setNotification('')
+      }, 3000)
     }
   }
 
   return (
     <div>
       <h2>blogs</h2>
+      <Notification message={notification} />
       {user === null
         ? (<Login username={username}
           handleUsername={handleUsername}
