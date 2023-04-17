@@ -12,7 +12,7 @@ const Blog = ({ blog }) => {
       {blog.title} by {blog.author}
       <Togglable buttonLabel='view' hideLabel='hide'>
         {blog.url} <br />
-        {blog.likes} <br />
+        likes {blog.likes} <button>like</button> <br />
         {blog.user.name} <br />
       </Togglable>
     </div>
