@@ -3,7 +3,9 @@ import Togglable from './Togglable.js'
 const Blog = ({ blog }) => {
 
   const blogStyle = {
-    padding: 10
+    padding: 10,
+    border: 'solid',
+    borderWidth: 5
   }
   return (
     <div style={blogStyle}>
