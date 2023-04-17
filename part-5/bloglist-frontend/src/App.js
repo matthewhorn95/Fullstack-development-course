@@ -81,7 +81,7 @@ const App = () => {
         )
         : (
         <>
-          <Togglable buttonLabel='new blog'>
+          <Togglable buttonLabel='new blog' hideLabel='cancel'>
             <Post blogs={blogs}
             setBlogs={setBlogs}
             setNotification={setNotification} />
