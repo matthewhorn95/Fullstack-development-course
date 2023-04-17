@@ -25,6 +25,7 @@ const App = () => {
     if (activeUser) {
       const user = JSON.parse(activeUser)
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -84,7 +85,8 @@ const App = () => {
           <Togglable buttonLabel='new blog' hideLabel='cancel'>
             <Post blogs={blogs}
             setBlogs={setBlogs}
-            setNotification={setNotification} />
+            setNotification={setNotification}
+            user={user} />
           </Togglable>
           {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
           <p>

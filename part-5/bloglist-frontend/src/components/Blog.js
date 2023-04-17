@@ -7,6 +7,7 @@ const Blog = ({ blog }) => {
     border: 'solid',
     borderWidth: 5
   }
+
   return (
     <div style={blogStyle}>
       {blog.title} by {blog.author}

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import blogService from '../services/blogs'
 
 const Post = ({ blogs, setBlogs, setNotification }) => {
+
     const [title, setTitle] = useState([])
     const [author, setAuthor] = useState([])
     const [url, setUrl] = useState([])
@@ -10,7 +11,8 @@ const Post = ({ blogs, setBlogs, setNotification }) => {
         event.preventDefault()
 
         blogService.create({ title, author, url })
-          .then(response => setBlogs(blogs.concat(response)))
+        blogService.getAll()
+            .then(response => setBlogs(response))
 
         setNotification(`New blog titled ${title} by ${author} added`)
         setTimeout(() => {
