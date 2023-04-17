@@ -1,10 +1,10 @@
-PUT http://localhost:3003/api/blogs/6409e8f147dd491d1a027252
+PUT http://localhost:3003/api/blogs/642d78dd752941f2f6aea37e
 Content-Type: application/json
 
 {
-  "title": "Chaz",
-  "author": "yep",
-  "url": "something",
-  "likes": 7,
-  "id": "6409e8f147dd491d1a027252"
-}
+  "title": "Fullstack Development 2",
+  "author": "Matthew Horn",
+  "url": "notaurl2",
+  "likes": 1233,
+  "user": "642d7893752941f2f6aea377"
+  }

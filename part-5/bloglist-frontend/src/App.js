@@ -88,7 +88,7 @@ const App = () => {
             setNotification={setNotification}
             user={user} />
           </Togglable>
-          {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
+          {blogs.map(blog => <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />)}
           <p>
           {user.username} is logged in <button onClick={handleLogout}>log out</button>
           </p>

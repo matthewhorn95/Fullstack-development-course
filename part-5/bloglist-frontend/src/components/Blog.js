@@ -1,6 +1,10 @@
 import Togglable from './Togglable.js'
+import axios from 'axios'
+import blogService from '../services/blogs.js'
 
-const Blog = ({ blog }) => {
+const baseUrl = '/api/blogs'
+
+const Blog = ({ blog, setBlogs }) => {
 
   const blogStyle = {
     padding: 10,
@@ -8,12 +12,32 @@ const Blog = ({ blog }) => {
     borderWidth: 5
   }
 
+  const incrementLike = () => {
+    const token = blogService.getToken()
+
+    const config = {
+      headers: { authorization: token }
+    }
+
+    const updatedBlog = {
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1,
+      user: blog.id
+     }
+
+    axios.put(`${baseUrl}/${blog.id}`, updatedBlog, config)
+    blogService.getAll()
+     .then(all => setBlogs(all))
+  }
+
   return (
     <div style={blogStyle}>
       {blog.title} by {blog.author}
       <Togglable buttonLabel='view' hideLabel='hide'>
         {blog.url} <br />
-        likes {blog.likes} <button>like</button> <br />
+        likes {blog.likes} <button onClick={incrementLike}>like</button> <br />
         {blog.user.name} <br />
       </Togglable>
     </div>

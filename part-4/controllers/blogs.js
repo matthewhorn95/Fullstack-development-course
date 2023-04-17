@@ -44,13 +44,25 @@ blogsRouter.post('/', async (request, response) => {
     }
   })
 
-blogsRouter.put('/api/blogs/:id', async (request, response) => {
-  const { title, author, url, likes } = request.body
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id,
-    { title, author, url, likes },
+blogsRouter.put('/:id', async (request, response, next) => {
+  console.log('param id: ', request.params.id)
+  const body = request.body
+
+  const newBlog = {
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes
+  }
+
+  Blog.findByIdAndUpdate(request.params.id,
+    newBlog,
     { new: true }
-  )
-  response.json(updatedBlog)
+  ).then(updatedBlog => {
+    console.log('updated blog: \n', updatedBlog)
+    response.json(updatedBlog)})
+    .catch(error => next(error))
+
 })
 
 blogsRouter.delete('/api/blogs/:id', async (request, response) => {
