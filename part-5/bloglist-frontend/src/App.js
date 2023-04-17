@@ -12,9 +12,6 @@ const App = () => {
   const [username, setUsername] = useState([])
   const [password, setPassword] = useState([])
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState([])
-  const [author, setAuthor] = useState([])
-  const [url, setUrl] = useState([])
   const [notification, setNotification] = useState('')
 
   useEffect(() => {
@@ -30,26 +27,6 @@ const App = () => {
       setUser(user)
     }
   }, [])
-
-  const handleUsername = (event) => {
-    setUsername(event.target.value)
-  }
-
-  const handlePassword = (event) => {
-    setPassword(event.target.value)
-  }
-
-  const handleTitle = (event) => {
-    setTitle(event.target.value)
-  }
-
-  const handleAuthor = (event) => {
-    setAuthor(event.target.value)
-  }
-
-  const handleUrl = (event) => {
-    setUrl(event.target.value)
-  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -77,22 +54,7 @@ const App = () => {
     }
   }
 
-  const handlePost = (event) => {
-    event.preventDefault()
-    console.log('post by', username, 'initiated')
 
-    blogService.create({ title, author, url })
-      .then(response => setBlogs(blogs.concat(response)))
-
-    setNotification(`New blog titled ${title} by ${author} added`)
-    setTimeout(() => {
-      setNotification('')
-    }, 3000)
-
-    setTitle('')
-    setAuthor('')
-    setUrl('')
-  }
 
   const handleLogout = (event) => {
     if (window.confirm('Are you sure you want to log out?')) {
@@ -112,21 +74,17 @@ const App = () => {
       <Notification message={notification} />
       {user === null
         ? (<Login username={username}
-          handleUsername={handleUsername}
+          handleUsername={event => setUsername(event.target.value)}
           password={password}
-          handlePassword={handlePassword}
+          handlePassword={event => setPassword(event.target.value)}
           handleLogin={handleLogin} />
         )
         : (
         <>
           <Togglable buttonLabel='new blog'>
-            <Post title={title}
-            author={author}
-            url={url}
-            handleTitle={handleTitle}
-            handleUrl={handleUrl}
-            handleAuthor={handleAuthor}
-            handlePost={handlePost} />
+            <Post blogs={blogs}
+            setBlogs={setBlogs}
+            setNotification={setNotification} />
           </Togglable>
           {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
           <p>
