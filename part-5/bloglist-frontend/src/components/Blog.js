@@ -32,6 +32,16 @@ const Blog = ({ blog, setBlogs }) => {
      .then(all => setBlogs(all))
   }
 
+  const removeBlog = () => {
+    if (window.confirm(`Delete ${blog.title} by ${blog.author}?`)) {
+      axios.delete(`${baseUrl}/${blog.id}`)
+        .then(() => {
+          blogService.getAll()
+            .then(all => setBlogs(all))
+        })
+    }
+  }
+
   return (
     <div style={blogStyle}>
       {blog.title} by {blog.author}
@@ -39,6 +49,7 @@ const Blog = ({ blog, setBlogs }) => {
         {blog.url} <br />
         likes {blog.likes} <button onClick={incrementLike}>like</button> <br />
         {blog.user.name} <br />
+        <button onClick={removeBlog}>remove</button>
       </Togglable>
     </div>
   )
