@@ -88,7 +88,10 @@ const App = () => {
             setNotification={setNotification}
             user={user} />
           </Togglable>
-          {blogs.sort((a, b) => b.likes - a.likes).map(blog => <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />)}
+          {blogs.sort((a, b) => b.likes - a.likes).map(blog => <Blog key={blog.id}
+                                                                     blog={blog}
+                                                                     setBlogs={setBlogs}
+                                                                     setNotification={setNotification} />)}
           <p>
           {user.username} is logged in <button onClick={handleLogout}>log out</button>
           </p>

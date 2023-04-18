@@ -4,7 +4,7 @@ import blogService from '../services/blogs.js'
 
 const baseUrl = '/api/blogs'
 
-const Blog = ({ blog, setBlogs }) => {
+const Blog = ({ blog, setBlogs, setNotification }) => {
 
   const blogStyle = {
     padding: 10,
@@ -28,17 +28,27 @@ const Blog = ({ blog, setBlogs }) => {
      }
 
     axios.put(`${baseUrl}/${blog.id}`, updatedBlog, config)
-    blogService.getAll()
-     .then(all => setBlogs(all))
+    .then(() => {
+      blogService.getAll()
+        .then(all => setBlogs(all))
+    })
+
   }
 
   const removeBlog = () => {
+    const deleteTitle = blog.title
+    const deleteAuthor = blog.author
     if (window.confirm(`Delete ${blog.title} by ${blog.author}?`)) {
       axios.delete(`${baseUrl}/${blog.id}`)
         .then(() => {
           blogService.getAll()
             .then(all => setBlogs(all))
         })
+
+      setNotification(`Removed ${deleteTitle} by ${deleteAuthor}`)
+      setTimeout(() => {
+        setNotification('')
+      }, 3000)
     }
   }
 

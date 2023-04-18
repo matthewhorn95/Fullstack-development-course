@@ -11,8 +11,11 @@ const Post = ({ blogs, setBlogs, setNotification }) => {
         event.preventDefault()
 
         blogService.create({ title, author, url })
-        blogService.getAll()
-            .then(response => setBlogs(response))
+            .then(() => {
+                blogService.getAll()
+                    .then(response => setBlogs(response))
+            })
+
 
         setNotification(`New blog titled ${title} by ${author} added`)
         setTimeout(() => {
