@@ -53,9 +53,9 @@ const Blog = ({ blog, setBlogs, setNotification }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div className='blog' style={blogStyle}>
       {blog.title} by {blog.author}
-      <Togglable buttonLabel='view' hideLabel='hide'>
+      <Togglable className='togglable' buttonLabel='view' hideLabel='hide'>
         {blog.url} <br />
         likes {blog.likes} <button onClick={incrementLike}>like</button> <br />
         {blog.user.name} <br />
