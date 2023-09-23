@@ -13,6 +13,7 @@ const Blog = ({ blog, setBlogs, setNotification }) => {
   }
 
   const incrementLike = () => {
+    console.log('incrementLike called...')
     const token = blogService.getToken()
 
     const config = {
@@ -30,7 +31,8 @@ const Blog = ({ blog, setBlogs, setNotification }) => {
     axios.put(`${baseUrl}/${blog.id}`, updatedBlog, config)
     .then(() => {
       blogService.getAll()
-        .then(all => setBlogs(all))
+        .then(all =>
+          setBlogs(all))
     })
 
   }
