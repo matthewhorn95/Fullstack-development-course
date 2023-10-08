@@ -11,7 +11,7 @@ const Notification = () => {
   }
   return (
     <div style={style}>
-      { notifications.map(n => <p>{n}</p>) }
+      { notifications.map(n => <div key={n.id}>{n.text}</div>) }
     </div>
   )
 }
