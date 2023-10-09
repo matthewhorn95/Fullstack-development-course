@@ -24,5 +24,14 @@ const notificationSlice = createSlice ({
     }
 })
 
+export const setNotification = (textTime) => {
+    return async (dispatch) => {
+        dispatch(enqueueNotification(textTime.text))
+        setTimeout(() => {
+            dispatch(dequeueNotification())
+        }, textTime.timeout * 1000)
+    }
+}
+
 export const { enqueueNotification, dequeueNotification } = notificationSlice.actions
 export default notificationSlice.reducer

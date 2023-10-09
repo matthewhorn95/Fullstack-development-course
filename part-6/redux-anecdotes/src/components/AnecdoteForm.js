@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux"
-import { enqueueNotification, dequeueNotification } from "../reducers/notificationReducer"
+import { setNotification } from "../reducers/notificationReducer"
 import { createNew } from "../reducers/anecdoteReducer"
 
 const AnecdoteForm = () => {
@@ -10,10 +10,7 @@ const AnecdoteForm = () => {
         const content = event.target.anecdote.value
         event.target.anecdote.value = ''
         dispatch(createNew(content))
-        dispatch(enqueueNotification(`You created a new anecdote: ${content}`))
-        setTimeout(() => {
-            dispatch(dequeueNotification())
-        }, 5000)
+        dispatch(setNotification({text: `You created a new anecdote: ${content}`, timeout: 5}))
     }
 
     return (
