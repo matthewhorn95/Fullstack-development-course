@@ -15,7 +15,7 @@ const AnecdoteForm = () => {
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
     newAnecdoteMutation.mutate(content)
-    dispatch({ type: "ADD", payload: content })
+    dispatch({ type: "ADD", payload: `You created new anecdote: ${content}` })
     setTimeout(() => {
       dispatch({ type: "REMOVE" })
     }, 5000)

@@ -12,7 +12,7 @@ const Notification = () => {
 
   return (
     <div style={style}>
-      {notifications}
+      {notifications.map(n => <div>{n}</div>)}
     </div>
   )
 }
