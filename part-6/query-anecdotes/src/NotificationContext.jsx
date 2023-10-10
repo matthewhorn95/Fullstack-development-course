@@ -1,9 +1,18 @@
 import { createContext, useReducer, useContext } from 'react'
 
+const generateId = () => {
+    const timestamp = new Date().getTime()
+    const random = Math.floor(Math.random() * 10000)
+    const uniqueId = `${timestamp}${random}`
+    return uniqueId
+}
+
 const notificationReducer = (state, action) => {
     switch (action.type) {
         case "ADD":
-            return [...state, action.payload]
+            const currId = generateId()
+            const payload = action.payload
+            return [...state, { text: payload, id: currId }]
         case "REMOVE":
             return state.slice(1)
         default:
