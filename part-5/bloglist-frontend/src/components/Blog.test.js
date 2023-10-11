@@ -1,6 +1,3 @@
-/* eslint-disable testing-library/no-wait-for-multiple-assertions */
-/* eslint-disable testing-library/no-unnecessary-act */
-/* eslint-disable testing-library/no-node-access */
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, screen, act} from '@testing-library/react'
@@ -78,22 +75,11 @@ describe('Blog tests', () => {
         render(<Blog blog={blog} setBlogs={setBlogs} setNotification={setNotification} />)
 
         const user = userEvent.setup()
-
         await user.click(screen.getByText('view'))
-
-        screen.debug()
-
         const buttonLike = screen.getByText('like')
-
         await user.click(buttonLike)
 
-        screen.debug()
-
-        // expect(setBlogs).toHaveBeenCalledTimes(1)
-
-        await waitFor(() => {
-            expect(setBlogs).toHaveBeenCalledTimes(1);
-          });
+        expect(setBlogs).toHaveBeenCalledTimes(1)
 
     })
 
