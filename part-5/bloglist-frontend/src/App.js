@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, React } from 'react'
 import Blog from './components/Blog'
 import Login from './components/Login'
 import Post from './components/Post'
@@ -57,7 +57,7 @@ const App = () => {
 
 
 
-  const handleLogout = (event) => {
+  const handleLogout = () => {
     if (window.confirm('Are you sure you want to log out?')) {
       console.log('logging out', user.username)
       window.localStorage.removeItem('activeUser')
