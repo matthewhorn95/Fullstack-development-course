@@ -68,14 +68,24 @@ const CreateNew = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    props.addNew({
-      content: content.value,
-      author: author.value,
-      info: info.value,
-      votes: 0
-    })
+    const buttonName = e.nativeEvent.submitter.name
 
-    navigate('/')
+    if (buttonName === 'create') {
+      props.addNew({
+        content: content.value,
+        author: author.value,
+        info: info.value,
+        votes: 0
+      })
+      navigate('/')
+    }
+
+    if (buttonName === 'reset') {
+      content.reset()
+      author.reset()
+      info.reset()
+    }
+
   }
 
   return (
@@ -84,17 +94,18 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input {...content} />
+          <input {...content} reset="reset" />
         </div>
         <div>
           author
-          <input {...author} />
+          <input {...author} reset="reset" />
         </div>
         <div>
           url for more info
-          <input {...info} />
+          <input {...info} reset="reset" />
         </div>
-        <button>create</button>
+        <button type="submit" name="create">create</button>
+        <button type="submit" name="reset">reset</button>
       </form>
     </div>
   )
