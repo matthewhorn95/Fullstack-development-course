@@ -7,9 +7,9 @@ export const useField = (name) => {
         setValue(event.target.value)
     }
 
-    return (
+    return {
         name,
         value,
         onChange
-    )
+    }
 }
